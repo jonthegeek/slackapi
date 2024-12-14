@@ -11,6 +11,9 @@ slack_req_base <- nectar::req_setup(
 #' @inheritParams nectar::req_modify
 #' @inheritParams .slack_req_perform
 #' @inheritParams rlang::args_error_context
+#' @param response_parser (`function`) A function to parse the server response.
+#'   Defaults to [slack_response_parser()]. Set this to `NULL` to return the raw
+#'   response from [httr2::req_perform()].
 #' @param token (`character`) A bearer token provided by Slack. A later
 #'   enhancement will add the ability to generate this token. Slack token are
 #'   long-lasting, and should be carefully guarded.
@@ -24,6 +27,7 @@ slack_call_api <- function(path,
                            pagination = c("none", "cursor"),
                            max_results = Inf,
                            max_reqs = Inf,
+                           response_parser = slack_response_parser,
                            token = Sys.getenv("SLACK_API_TOKEN"),
                            call = rlang::caller_env()) {
   # Don't pass token in query or body if provided as parameters; we'll instead
@@ -53,7 +57,7 @@ slack_call_api <- function(path,
     call = call
   )
 
-  nectar::resp_parse(resps, response_parser = .slack_response_parser)
+  nectar::resp_parse(resps, response_parser = response_parser)
 }
 
 #' Choose and apply pagination strategy

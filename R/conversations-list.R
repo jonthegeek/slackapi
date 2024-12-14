@@ -37,6 +37,7 @@ slack_conversations_list <- function(team_id = NULL,
       .multi = "comma"
     ),
     pagination = "cursor",
+    response_parser = .parse_channel,
     max_results = max_results,
     max_reqs = max_reqs
   )

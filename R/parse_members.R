@@ -1,4 +1,5 @@
-.parse_members <- function(results) {
+.parse_members <- function(resp) {
+  results <- httr2::resp_body_json(resp)$members
   tibblify::tibblify(
     results,
     spec = .slack_response_members_spec(),

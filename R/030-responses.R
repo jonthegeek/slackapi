@@ -3,10 +3,13 @@
 #' @inheritParams httr2::resp_body_json
 #'
 #' @return A tibble of results.
-#' @keywords internal
-.slack_response_parser <- function(resp) {
+#' @export
+slack_response_parser <- function(resp) {
   # This will only work for a few things right now. We need more complete
   # parsing.
+  #
+  # I intentionally left the targeting of specific parsers in here for other
+  # endpoints that return those same types of objects.
   results <- httr2::resp_body_json(resp)
   if (length(results)) {
     if ("messages" %in% names(results)) {

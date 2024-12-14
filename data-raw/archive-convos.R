@@ -1,3 +1,5 @@
+pkgload::load_all(".", helpers = FALSE, attach_testthat = FALSE)
+
 channels <- slack_conversations_list(
   types = "public_channel",
   exclude_archived = TRUE

@@ -27,6 +27,7 @@ slack_users_list <- function(include_locale = FALSE,
       team_id = team_id
     ),
     pagination = "cursor",
+    response_parser = .parse_members,
     max_results = max_results,
     max_reqs = max_reqs
   )

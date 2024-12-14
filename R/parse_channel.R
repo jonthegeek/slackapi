@@ -1,4 +1,5 @@
-.parse_channel <- function(results) {
+.parse_channel <- function(resp) {
+  results <- httr2::resp_body_json(resp)$channels
   tibblify::tibblify(
     results,
     spec = .slack_response_channel_spec(),
@@ -20,19 +21,19 @@
   tspec_df(
     channel_id = tib_chr("id"),
     channel_name = tib_chr("name", required = FALSE),
-    tib_lgl("is_im", .required = FALSE),
+    tib_lgl("is_im", required = FALSE),
     tib_lgl("is_mpim", required = FALSE),
     tib_lgl("is_private", required = FALSE),
-    channel_created_ts = tib_int("created", .required = FALSE),
-    tib_lgl("is_archived", .required = FALSE),
+    channel_created_ts = tib_int("created", required = FALSE),
+    tib_lgl("is_archived", required = FALSE),
     tib_lgl("is_general", required = FALSE),
     channel_name_normalized = tib_chr("name_normalized", required = FALSE),
     tib_lgl("is_shared", required = FALSE),
-    tib_lgl("is_org_shared", .required = FALSE),
+    tib_lgl("is_org_shared", required = FALSE),
     tib_lgl("is_pending_ext_shared", required = FALSE),
     tib_unspecified("pending_shared", required = FALSE),
-    tib_chr("context_team_id", .required = FALSE),
-    updated_ts = tib_dbl("updated", .required = FALSE),
+    tib_chr("context_team_id", required = FALSE),
+    updated_ts = tib_dbl("updated", required = FALSE),
     tib_unspecified("parent_conversation", required = FALSE),
     tib_chr("creator", required = FALSE),
     tib_lgl("is_ext_shared", required = FALSE),
@@ -61,9 +62,9 @@
       ),
       tib_df(
         "tabs", .required = FALSE,
-        tabs_id = tib_chr("id"),
-        tabs_label = tib_chr("label", .required = FALSE),
-        tabs_type = tib_chr("type", .required = FALSE),
+        tabs_id = tib_chr("id", required = FALSE),
+        tabs_label = tib_chr("label", required = FALSE),
+        tabs_type = tib_chr("type", required = FALSE),
         tabs_data = tib_row(
           "data", .required = FALSE,
           tib_chr("folder_bookmark_id", required = FALSE),
@@ -71,8 +72,8 @@
       ),
       tib_df(
         "tabz", .required = FALSE,
-        tabz_id = tib_chr("id"),
-        tabz_type = tib_chr("type", .required = FALSE),
+        tabz_id = tib_chr("id", required = FALSE),
+        tabz_type = tib_chr("type", required = FALSE),
         tabz_label = tib_chr("label", required = FALSE),
         tabz_data = tib_row(
           "data", .required = FALSE,
