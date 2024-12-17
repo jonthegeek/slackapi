@@ -9,3 +9,5 @@
 ^docs$
 ^pkgdown$
 ^data-raw$
+^_beekeeper_rapid\.rds$
+^_beekeeper\.yml$

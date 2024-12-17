@@ -13,7 +13,7 @@
 #'
 #' @return A thread of messages posted to a conversation as a tibble. Note: The
 #'   parent message is always included in the response.
-#' @export
+#' @keywords internal
 slack_conversations_members <- function(channel,
                                         max_results = Inf,
                                         max_reqs = Inf,

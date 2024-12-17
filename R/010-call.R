@@ -19,7 +19,7 @@ slack_req_base <- nectar::req_setup(
 #'   long-lasting, and should be carefully guarded.
 #'
 #' @return A tibble with the results of the API call.
-#' @export
+#' @keywords internal
 slack_call_api <- function(path,
                            query = list(),
                            body = NULL,

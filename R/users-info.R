@@ -8,7 +8,7 @@
 #'   for users. Defaults to `FALSE`.
 #'
 #' @return This method returns information about a member of a workspace.
-#' @export
+#' @keywords internal
 slack_users_info <- function(user,
                              include_locale = FALSE,
                              max_results = Inf,

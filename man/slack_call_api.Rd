@@ -12,6 +12,7 @@ slack_call_api(
   pagination = c("none", "cursor"),
   max_results = Inf,
   max_reqs = Inf,
+  response_parser = slack_response_parser,
   token = Sys.getenv("SLACK_API_TOKEN"),
   call = rlang::caller_env()
 )
@@ -48,6 +49,10 @@ the max_reqs argument of \code{\link[httr2:req_perform_iterative]{httr2::req_per
 is supplied. The default \code{2} should likely be changed to \code{Inf} after you
 validate the function.}
 
+\item{response_parser}{(\code{function}) A function to parse the server response.
+Defaults to \code{\link[=slack_response_parser]{slack_response_parser()}}. Set this to \code{NULL} to return the raw
+response from \code{\link[httr2:req_perform]{httr2::req_perform()}}.}
+
 \item{token}{(\code{character}) A bearer token provided by Slack. A later
 enhancement will add the ability to generate this token. Slack token are
 long-lasting, and should be carefully guarded.}
@@ -63,3 +68,4 @@ A tibble with the results of the API call.
 \description{
 Generate and perform request to a Slack Web API method.
 }
+\keyword{internal}

@@ -1,4 +1,8 @@
-#' Basic stop-gap parsing
+#' Basic response parsing
+#'
+#' This function attempts to parse a Slack response into a tidy tibble. It will
+#' gradually be replaced as I implement specific parsers, and eventually will
+#' not be exported.
 #'
 #' @inheritParams httr2::resp_body_json
 #'

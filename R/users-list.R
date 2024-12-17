@@ -7,12 +7,10 @@
 #'   for users. Defaults to `FALSE`.
 #' @param team_id (`character`) Encoded team id to list users in, required if
 #'   org token is used.
-#' @param include_locale (`logical`) Set this to `TRUE` to receive the locale
-#'   for users. Defaults to `FALSE`.
 #'
 #' @return This method returns a list of all users in the workspace. This
 #'   includes both invited users and deleted/deactivated users.
-#' @export
+#' @keywords internal
 slack_users_list <- function(include_locale = FALSE,
                              team_id = NULL,
                              max_results = Inf,
