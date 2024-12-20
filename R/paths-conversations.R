@@ -14,7 +14,7 @@
 #'   `conversations:write`
 #' @return `TRUE` (invisibly) for success.
 #' @keywords internal
-slack_conversations_archive <- function(channel, token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_archive <- function(channel, token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.archive",
     method = "post",
@@ -34,7 +34,7 @@ slack_conversations_archive <- function(channel, token = Sys.getenv("SLACK_API_T
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_close <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_close <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.close",
     method = "post",
@@ -53,7 +53,7 @@ slack_conversations_close <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_create <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_create <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.create",
     method = "post",
@@ -81,14 +81,14 @@ slack_conversations_create <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #'   this message.
 #' @return A channel's messages as a tibble.
 #' @export
-slack_conversations_history <- function(channel,
-                                        latest = lubridate::now(),
-                                        oldest = 0,
-                                        inclusive = TRUE,
-                                        include_all_metadata = FALSE,
-                                        max_results = Inf,
-                                        max_reqs = Inf,
-                                        token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_history <- function(channel,
+                                  latest = lubridate::now(),
+                                  oldest = 0,
+                                  inclusive = TRUE,
+                                  include_all_metadata = FALSE,
+                                  max_results = Inf,
+                                  max_reqs = Inf,
+                                  token = Sys.getenv("SLACK_API_TOKEN")) {
   latest <- as_slack_ts(latest)
   oldest <- as_slack_ts(oldest)
   slack_call_api(
@@ -123,7 +123,7 @@ slack_conversations_history <- function(channel,
 #'   specified conversation. Defaults to `false`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_info <- function(channel, include_locale, include_num_members, token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_info <- function(channel, include_locale, include_num_members, token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.info",
     method = "get",
@@ -142,7 +142,7 @@ slack_conversations_info <- function(channel, include_locale, include_num_member
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_invite <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_invite <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.invite",
     method = "post",
@@ -161,7 +161,7 @@ slack_conversations_invite <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #'   `channels:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_join <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_join <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.join",
     method = "post",
@@ -180,7 +180,7 @@ slack_conversations_join <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_kick <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_kick <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.kick",
     method = "post",
@@ -199,7 +199,7 @@ slack_conversations_kick <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_leave <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_leave <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.leave",
     method = "post",
@@ -222,17 +222,17 @@ slack_conversations_leave <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #' @return A tibble of information about channels and channel-like
 #'   conversations.
 #' @export
-slack_conversations_list <- function(team_id = NULL,
-                                     exclude_archived = FALSE,
-                                     types = c(
-                                       "public_channel",
-                                       "private_channel",
-                                       "mpim",
-                                       "im"
-                                     ),
-                                     max_results = Inf,
-                                     max_reqs = Inf,
-                                     token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_list <- function(team_id = NULL,
+                               exclude_archived = FALSE,
+                               types = c(
+                                 "public_channel",
+                                 "private_channel",
+                                 "mpim",
+                                 "im"
+                               ),
+                               max_results = Inf,
+                               max_reqs = Inf,
+                               token = Sys.getenv("SLACK_API_TOKEN")) {
   types <- rlang::arg_match(types, multiple = TRUE)
   slack_call_api(
     path = "/conversations.list",
@@ -261,7 +261,7 @@ slack_conversations_list <- function(team_id = NULL,
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_mark <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_mark <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.mark",
     method = "post",
@@ -281,7 +281,7 @@ slack_conversations_mark <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #' @param channel ID of the conversation to retrieve members for
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_members <- function(channel, max_results = Inf, max_reqs = Inf, cursor, token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_members <- function(channel, max_results = Inf, max_reqs = Inf, cursor, token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.members",
     method = "get",
@@ -300,7 +300,7 @@ slack_conversations_members <- function(channel, max_results = Inf, max_reqs = I
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_open <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_open <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.open",
     method = "post",
@@ -319,7 +319,7 @@ slack_conversations_open <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_rename <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_rename <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.rename",
     method = "post",
@@ -353,15 +353,15 @@ slack_conversations_rename <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
 #' @return A thread of messages posted to a conversation as a tibble. Note: The
 #'   parent message is always included in the response.
 #' @export
-slack_conversations_replies <- function(channel,
-                                        ts,
-                                        latest = lubridate::now(),
-                                        oldest = 0,
-                                        inclusive = TRUE,
-                                        include_all_metadata = FALSE,
-                                        max_results = Inf,
-                                        max_reqs = Inf,
-                                        token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_replies <- function(channel,
+                                  ts,
+                                  latest = lubridate::now(),
+                                  oldest = 0,
+                                  inclusive = TRUE,
+                                  include_all_metadata = FALSE,
+                                  max_results = Inf,
+                                  max_reqs = Inf,
+                                  token = Sys.getenv("SLACK_API_TOKEN")) {
   latest <- as_slack_ts(latest)
   oldest <- as_slack_ts(oldest)
   slack_call_api(
@@ -392,7 +392,7 @@ slack_conversations_replies <- function(channel,
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_set_purpose <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_set_purpose <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.setPurpose",
     method = "post",
@@ -411,7 +411,7 @@ slack_conversations_set_purpose <- function(token = Sys.getenv("SLACK_API_TOKEN"
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_set_topic <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_set_topic <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.setTopic",
     method = "post",
@@ -430,7 +430,7 @@ slack_conversations_set_topic <- function(token = Sys.getenv("SLACK_API_TOKEN"))
 #'   `conversations:write`
 #' @return BKTODO: Return descriptions are not yet implemented in beekeeper
 #' @keywords internal
-slack_conversations_unarchive <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
+conversations_unarchive <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/conversations.unarchive",
     method = "post",

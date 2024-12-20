@@ -11,11 +11,11 @@
 #' @return This method returns a list of all users in the workspace. This
 #'   includes both invited users and deleted/deactivated users.
 #' @keywords internal
-slack_users_list <- function(include_locale = FALSE,
-                             team_id = NULL,
-                             max_results = Inf,
-                             max_reqs = Inf,
-                             token = Sys.getenv("SLACK_API_TOKEN")) {
+users_list <- function(include_locale = FALSE,
+                       team_id = NULL,
+                       max_results = Inf,
+                       max_reqs = Inf,
+                       token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/users.list",
     method = "get",

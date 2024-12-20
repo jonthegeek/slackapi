@@ -1,6 +1,6 @@
 pkgload::load_all(".", helpers = FALSE, attach_testthat = FALSE)
 
-channels <- slack_conversations_list(
+channels <- conversations_list(
   types = "public_channel",
   exclude_archived = TRUE
 )
@@ -10,7 +10,7 @@ channels <- slack_conversations_list(
 # changed.
 
 convos_new <- purrr::map(channels$channel_id, \(channel_id) {
-  slack_conversations_history(channel = channel_id) |>
+  conversations_history(channel = channel_id) |>
     dplyr::mutate(channel_id = channel_id, .before = 1)
 }) |>
   purrr::list_rbind() |>
@@ -123,7 +123,7 @@ if (nrow(convo_changes)) {
   threads_new <- convos_with_reply_changes |>
     dplyr::select("channel_id", "ts") |>
     purrr::pmap(\(channel_id, ts) {
-      slack_conversations_replies(channel = channel_id, ts = ts) |>
+      conversations_replies(channel = channel_id, ts = ts) |>
         dplyr::mutate(channel_id = channel_id, .before = 1)
     }) |>
     purrr::list_rbind() |>
@@ -186,7 +186,7 @@ if (nrow(convo_changes)) {
     dplyr::anti_join(threads_old_compare, by = common_columns)
 
   if (nrow(thread_changes)) {
-    if ("edited" %in% names(thread_changes_for_filename)) {
+    if ("edited" %in% colnames(thread_changes)) {
       ts_for_threads_filename <- thread_changes |>
         tidyr::unnest("edited", names_sep = "_") |>
         dplyr::select("ts", "edited_ts") |>

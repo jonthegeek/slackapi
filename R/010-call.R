@@ -1,9 +1,3 @@
-# Set up the basic call once at package build.
-slack_req_base <- nectar::req_setup(
-  "https://slack.com/api",
-  user_agent = "slackapi (https://github.com/jonthegeek/slackapi)"
-)
-
 #' Call the Slack Web API
 #'
 #' Generate and perform request to a Slack Web API method.
@@ -41,7 +35,7 @@ slack_call_api <- function(path,
   }
 
   req <- nectar::req_modify(
-    slack_req_base,
+    nectar::req_init("https://slack.com/api"),
     path = path,
     query = query,
     body = body,

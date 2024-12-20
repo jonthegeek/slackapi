@@ -1,6 +1,6 @@
 pkgload::load_all(".", helpers = FALSE, attach_testthat = FALSE)
 
-users <- slack_users_list(include_locale = TRUE) |>
+users <- users_list(include_locale = TRUE) |>
   tidyr::unnest(profile) |>
   dplyr::select(
     -"team_id",
@@ -45,4 +45,7 @@ if (nrow(user_changes)) {
   users_filename <- paste0("data-raw/users/users-", ts_for_filename, ".rds")
 
   saveRDS(user_changes, users_filename)
+  rm(ts_for_filename, users_filename)
 }
+
+rm(user_changes, users, users_old, users_old_compare)

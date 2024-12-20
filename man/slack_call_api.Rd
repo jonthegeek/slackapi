@@ -18,22 +18,22 @@ slack_call_api(
 )
 }
 \arguments{
-\item{path}{The route to an API endpoint. Optionally, a list or character
-vector with the path as one or more unnamed arguments (which will be
-concatenated with "/") plus named arguments to \code{\link[glue:glue]{glue::glue()}} into the
-path.}
+\item{path}{(\code{character} or \code{list}) The route to an API endpoint. Optionally,
+a list or character vector with the path as one or more unnamed arguments
+(which will be concatenated with "/") plus named arguments to
+\code{\link[glue:glue]{glue::glue()}} into the path.}
 
-\item{query}{An optional list or character vector of parameters to pass in
-the query portion of the request. Can also include a \code{.multi} argument to
-pass to \code{\link[httr2:req_url]{httr2::req_url_query()}} to control how elements containing
-multiple values are handled.}
+\item{query}{(\code{character} or \code{list}) An optional list or character vector of
+parameters to pass in the query portion of the request. Can also include a
+\code{.multi} argument to pass to \code{\link[httr2:req_url]{httr2::req_url_query()}} to control how
+elements containing multiple values are handled.}
 
-\item{body}{An object to use as the body of the request. If any component of
-the body is a path, pass it through \code{\link[fs:path]{fs::path()}} or otherwise give it the
-class "fs_path" to indicate that it is a path.}
+\item{body}{(multiple types) An object to use as the body of the request. If
+any component of the body is a path, pass it through \code{\link[fs:path]{fs::path()}} or
+otherwise give it the class "fs_path" to indicate that it is a path.}
 
-\item{method}{If the method is something other than GET or POST, supply it.
-Case is ignored.}
+\item{method}{(\verb{length-1 character}, optional) If the method is something
+other than \code{GET} or \code{POST}, supply it. Case is ignored.}
 
 \item{pagination}{(\code{character}) The pagination scheme to use. Currently either
 "none" (the default) or "cursor" (a scheme that uses \code{cursor}-based
