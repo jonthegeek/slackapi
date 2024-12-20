@@ -169,10 +169,12 @@ if (nrow(convo_changes)) {
 
   threads_old_compare <- threads_old |>
     dplyr::select(
-      "channel_id",
-      "ts",
-      "reactions",
-      "edited"
+      tidyselect::any_of(c(
+        "channel_id",
+        "ts",
+        "reactions",
+        "edited"
+      ))
     )
 
   common_columns <- intersect(
@@ -184,23 +186,39 @@ if (nrow(convo_changes)) {
     dplyr::anti_join(threads_old_compare, by = common_columns)
 
   if (nrow(thread_changes)) {
-    ts_for_threads_filename <- thread_changes |>
-      tidyr::unnest("edited", names_sep = "_") |>
-      dplyr::select("ts", "edited_ts") |>
-      dplyr::summarize(
-        change_ts = max(c(
-          as.double(.data$ts),
-          as.double(.data$edited_ts)
-        ), na.rm = TRUE),
-        .by = "ts"
-      ) |>
-      dplyr::pull(.data$change_ts) |>
-      max(na.rm = TRUE) |>
-      as.POSIXct(
-        origin = "1970-01-01",
-        tz = "UTC"
-      ) |>
-      format(format = "%Y-%m-%d-%H%M%OS0%Z")
+    if ("edited" %in% names(thread_changes_for_filename)) {
+      ts_for_threads_filename <- thread_changes |>
+        tidyr::unnest("edited", names_sep = "_") |>
+        dplyr::select("ts", "edited_ts") |>
+        dplyr::summarize(
+          change_ts = max(c(
+            as.double(.data$ts),
+            as.double(.data$edited_ts)
+          ), na.rm = TRUE),
+          .by = "ts"
+        ) |>
+        dplyr::pull(.data$change_ts) |>
+        max(na.rm = TRUE) |>
+        as.POSIXct(
+          origin = "1970-01-01",
+          tz = "UTC"
+        ) |>
+        format(format = "%Y-%m-%d-%H%M%OS0%Z")
+    } else {
+      ts_for_threads_filename <- thread_changes |>
+        dplyr::select("ts") |>
+        dplyr::summarize(
+          change_ts = max(as.double(.data$ts), na.rm = TRUE),
+          .by = "ts"
+        ) |>
+        dplyr::pull(.data$change_ts) |>
+        max(na.rm = TRUE) |>
+        as.POSIXct(
+          origin = "1970-01-01",
+          tz = "UTC"
+        ) |>
+        format(format = "%Y-%m-%d-%H%M%OS0%Z")
+    }
 
     threads_filename <- paste0(
       "data-raw/convos/threads-",
