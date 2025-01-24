@@ -24,6 +24,7 @@ slack_call_api <- function(path,
                            response_parser = slack_response_parser,
                            token = Sys.getenv("SLACK_API_TOKEN"),
                            call = rlang::caller_env()) {
+  stop("You shouldn't be here")
   # Don't pass token in query or body if provided as parameters; we'll instead
   # pass it in the header.
   token <- token %||% body$token %||% query$token
@@ -41,7 +42,7 @@ slack_call_api <- function(path,
     body = body,
     method = method
   )
-  req <- .slack_req_auth(req, token = token)
+  req <- .req_auth(req, token = token)
 
   resps <- .slack_req_perform(
     req,
@@ -93,7 +94,7 @@ slack_call_api <- function(path,
 
   nectar::req_perform_opinionated(
     req,
-    next_req = next_req,
+    next_req_fn = next_req,
     max_reqs = max_reqs
   )
 }

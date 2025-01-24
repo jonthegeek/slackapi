@@ -62,52 +62,6 @@ conversations_create <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   )
 }
 
-#' Get conversations history
-#'
-#' Fetches a conversation's history of messages and events.
-#'
-#' @param token (`character`) A bearer token provided by Slack. A later
-#'   enhancement will add the ability to generate this token. Slack token are
-#'   long-lasting, and should be carefully guarded. Requires scope:
-#'   `conversations:history`
-#' @param channel (`character`) Conversation ID to fetch history for.
-#' @param latest (`datetime` or `double`) End of time range of messages to
-#'   include in results.
-#' @param oldest (`datetime` or `double`) Start of time range of messages to
-#'   include in results.
-#' @param inclusive (`logical`) Include messages with `latest` or `oldest`
-#'   timestamp in results only when either timestamp is specified.
-#' @param include_all_metadata (`logical`) Return all metadata associated with
-#'   this message.
-#' @return A channel's messages as a tibble.
-#' @export
-conversations_history <- function(channel,
-                                  latest = lubridate::now(),
-                                  oldest = 0,
-                                  inclusive = TRUE,
-                                  include_all_metadata = FALSE,
-                                  max_results = Inf,
-                                  max_reqs = Inf,
-                                  token = Sys.getenv("SLACK_API_TOKEN")) {
-  latest <- as_slack_ts(latest)
-  oldest <- as_slack_ts(oldest)
-  slack_call_api(
-    path = "/conversations.history",
-    method = "get",
-    token = token,
-    query = list(
-      channel = channel,
-      latest = latest,
-      oldest = oldest,
-      inclusive = inclusive,
-      include_all_metadata = include_all_metadata
-    ),
-    pagination = "cursor",
-    max_results = max_results,
-    max_reqs = max_reqs
-  )
-}
-
 #' Get conversations info
 #'
 #' Retrieve information about a conversation.
@@ -208,49 +162,6 @@ conversations_leave <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   )
 }
 
-#' Get conversations list
-#'
-#' Lists all channels in a Slack team.
-#'
-#' @param team_id (`character`) Encoded team id to list channels in, required if
-#'   token belongs to org-wide app.
-#' @param exclude_archived (`logical`) Set to `TRUE` to exclude archived
-#'   channels from the list.
-#' @param types (`character`) Mix and match channel types by providing a vector
-#'   of any combination of `public_channel`, `private_channel`, `mpim`, `im`.
-#'
-#' @return A tibble of information about channels and channel-like
-#'   conversations.
-#' @export
-conversations_list <- function(team_id = NULL,
-                               exclude_archived = FALSE,
-                               types = c(
-                                 "public_channel",
-                                 "private_channel",
-                                 "mpim",
-                                 "im"
-                               ),
-                               max_results = Inf,
-                               max_reqs = Inf,
-                               token = Sys.getenv("SLACK_API_TOKEN")) {
-  types <- rlang::arg_match(types, multiple = TRUE)
-  slack_call_api(
-    path = "/conversations.list",
-    method = "get",
-    token = token,
-    query = list(
-      team_id = team_id,
-      exclude_archived = exclude_archived,
-      types = types,
-      .multi = "comma"
-    ),
-    pagination = "cursor",
-    response_parser = .parse_channel,
-    max_results = max_results,
-    max_reqs = max_reqs
-  )
-}
-
 #' Post conversations mark
 #'
 #' Sets the read cursor in a channel.
@@ -325,60 +236,6 @@ conversations_rename <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
     method = "post",
     token = token,
     body = list(token = token)
-  )
-}
-
-#' Get conversations replies
-#'
-#' Retrieve a thread of messages posted to a conversation
-#'
-#' @param token (`character`) A bearer token provided by Slack. A later
-#'   enhancement will add the ability to generate this token. Slack token are
-#'   long-lasting, and should be carefully guarded. Requires scope:
-#'   `conversations:history`
-#' @param channel (`character`) Conversation ID to fetch thread from.
-#' @param ts (`character` or `datetime` or `double`) Unique identifier of either
-#'   a thread’s parent message or a message in the thread. ts must be the
-#'   timestamp of an existing message with 0 or more replies. If there are no
-#'   replies then just the single message referenced by ts will return - it is
-#'   just an ordinary, unthreaded message.
-#' @param latest (`datetime` or `double`) Only messages before this Unix
-#'   timestamp will be included in results.
-#' @param oldest (`datetime` or `double`) Only messages after this Unix
-#'   timestamp will be included in results.
-#' @param inclusive (`logical`) Include messages with `latest` or `oldest`
-#'   timestamp in results only when either timestamp is specified.
-#' @param include_all_metadata (`logical`) Return all metadata associated with
-#'   this message.
-#' @return A thread of messages posted to a conversation as a tibble. Note: The
-#'   parent message is always included in the response.
-#' @export
-conversations_replies <- function(channel,
-                                  ts,
-                                  latest = lubridate::now(),
-                                  oldest = 0,
-                                  inclusive = TRUE,
-                                  include_all_metadata = FALSE,
-                                  max_results = Inf,
-                                  max_reqs = Inf,
-                                  token = Sys.getenv("SLACK_API_TOKEN")) {
-  latest <- as_slack_ts(latest)
-  oldest <- as_slack_ts(oldest)
-  slack_call_api(
-    path = "/conversations.replies",
-    method = "get",
-    token = token,
-    query = list(
-      channel = channel,
-      ts = ts,
-      latest = latest,
-      oldest = oldest,
-      inclusive = inclusive,
-      include_all_metadata = include_all_metadata
-    ),
-    pagination = "cursor",
-    max_results = max_results,
-    max_reqs = max_reqs
   )
 }
 

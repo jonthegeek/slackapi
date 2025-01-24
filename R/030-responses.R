@@ -17,13 +17,17 @@ slack_response_parser <- function(resp) {
   results <- httr2::resp_body_json(resp)
   if (length(results)) {
     if ("messages" %in% names(results)) {
-      return(
-        # TODO: If I (even ~naively) specify the spec, I think I can silence the
-        # messages about unspecified.
-        tibblify::tibblify(
-          results[["messages"]], unspecified = "list"
+      if (length(results$messages)) {
+        return(
+          # TODO: If I (even ~naively) specify the spec, I think I can silence
+          # the messages about unspecified.
+          tibblify::tibblify(
+            results$messages, unspecified = "list"
+          )
         )
-      )
+      } else {
+        return(NULL)
+      }
     }
     if ("channels" %in% names(results)) {
       return(.parse_channel(results$channels))

@@ -89,36 +89,6 @@ users_info <- function(include_locale, user, token = Sys.getenv("SLACK_TOKEN")) 
   )
 }
 
-#' Get users list
-#'
-#' Lists all users in a Slack team.
-#'
-#' @inheritParams slack_call_api
-#' @param limit The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Providing no `limit` value will result in Slack attempting to deliver you the entire result set. If the collection is too large you may experience `limit_required` or HTTP 500 errors.
-#' @param cursor Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-#' @param include_locale Set this to `true` to receive the locale for users. Defaults to `false`
-#' @return BKTODO: Return descriptions are not yet implemented in beekeeper
-#' @export
-users_list <- function(include_locale = FALSE,
-                       team_id = NULL,
-                       max_results = Inf,
-                       max_reqs = Inf,
-                       token = Sys.getenv("SLACK_API_TOKEN")) {
-  slack_call_api(
-    path = "/users.list",
-    method = "get",
-    token = token,
-    query = list(
-      include_locale = include_locale,
-      team_id = team_id
-    ),
-    pagination = "cursor",
-    response_parser = .parse_members,
-    max_results = max_results,
-    max_reqs = max_reqs
-  )
-}
-
 #' Get users lookup by email
 #'
 #' Find a user with an email address.

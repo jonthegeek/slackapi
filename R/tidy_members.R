@@ -1,10 +1,10 @@
-.parse_members <- function(resp) {
-  results <- httr2::resp_body_json(resp)$members
-  tibblify::tibblify(
-    results,
-    spec = .slack_response_members_spec(),
-    unspecified = "list"
+tidy_members <- function(resp) {
+  results <- nectar::resp_tidy_json(
+    resp,
+    spec = tspec_slack_members(),
+    subset_path = "members"
   )
+  return(results)
 }
 
 tspec_slack_members <- function() {

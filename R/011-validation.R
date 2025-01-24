@@ -25,7 +25,13 @@ as_slack_ts.character <- function(x,
   # TODO: Ideally this should detect whether this is datetime-y or double-y. It
   # should also probably use a stbl::to_dbl() function that doesn't exist yet,
   # to give better errors about NA.
-  as_slack_ts(as.double(x), arg = arg, call = call)
+  #
+  # TODO: We lose precision in this, and that breaks things when we're using it
+  # as an id. We need to be able to go in both directions. It might need a
+  # special class or attribute when we convert these to datetimes?
+  #
+  # as_slack_ts(as.double(x), arg = arg, call = call)
+  stbl::stabilize_chr_scalar(x, allow_na = FALSE, x_arg = arg, call = call)
 }
 
 #' @export
