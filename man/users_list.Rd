@@ -8,7 +8,7 @@
 users_list(
   include_locale = FALSE,
   team_id = NULL,
-  per_page = 200L,
+  per_req = 200L,
   max_reqs = Inf,
   max_tries_per_req = 3,
   token = Sys.getenv("SLACK_API_TOKEN")
@@ -17,7 +17,7 @@ users_list(
 req_users_list(
   include_locale = FALSE,
   team_id = NULL,
-  per_page = 200L,
+  per_req = 200L,
   token = Sys.getenv("SLACK_API_TOKEN")
 )
 }
@@ -28,7 +28,7 @@ for users. Defaults to \code{FALSE}.}
 \item{team_id}{(\code{character}) Encoded team id to list users in, required if
 org token is used.}
 
-\item{per_page}{(\code{integer}) The maximum number of items to return. Fewer than
+\item{per_req}{(\code{integer}) The maximum number of items to return. Fewer than
 the requested number of items may be returned, even if the end of the list
 hasn't been reached. Must be an integer under 1000.}
 

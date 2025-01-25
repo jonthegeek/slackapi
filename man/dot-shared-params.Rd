@@ -15,7 +15,7 @@ either "none" (the default) or "cursor" (a scheme that uses \code{cursor}-based
 pagination; see \href{https://api.slack.com/apis/pagination}{Pagination through collections} in the Slack API
 documentation. We do not currently support "Classic pagination".}
 
-\item{per_page}{(\code{integer}) The maximum number of items to return. Fewer than
+\item{per_req}{(\code{integer}) The maximum number of items to return. Fewer than
 the requested number of items may be returned, even if the end of the list
 hasn't been reached. Must be an integer under 1000.}
 

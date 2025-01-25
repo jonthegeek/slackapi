@@ -3,7 +3,7 @@
 # motivation to rename the parameters. This mapping allows us to convert back
 # and forth between the naming conventions.
 param_renames <- c(
-  limit = "per_page",
+  limit = "per_req",
   other = "other_name"
 )
 

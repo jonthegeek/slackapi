@@ -28,7 +28,7 @@ conversations_replies <- function(channel,
                                   oldest = 0,
                                   inclusive = TRUE,
                                   include_all_metadata = FALSE,
-                                  per_page = 200L,
+                                  per_req = 200L,
                                   max_reqs = Inf,
                                   max_tries_per_req = 3,
                                   token = Sys.getenv("SLACK_API_TOKEN")) {
@@ -39,7 +39,7 @@ conversations_replies <- function(channel,
     oldest = oldest,
     inclusive = inclusive,
     include_all_metadata = include_all_metadata,
-    per_page = per_page,
+    per_req = per_req,
     token = token
   )
   resps <- nectar::req_perform_opinionated(
@@ -60,7 +60,7 @@ req_conversations_replies <- function(channel,
                                       oldest = 0,
                                       inclusive = TRUE,
                                       include_all_metadata = FALSE,
-                                      per_page = 200L,
+                                      per_req = 200L,
                                       token = Sys.getenv("SLACK_API_TOKEN")) {
   channel <- stbl::to_chr_scalar(
     channel,
@@ -78,8 +78,8 @@ req_conversations_replies <- function(channel,
     include_all_metadata,
     allow_null = FALSE
   )
-  per_page <- stbl::stabilize_int_scalar(
-    per_page,
+  per_req <- stbl::stabilize_int_scalar(
+    per_req,
     allow_null = FALSE,
     allow_zero_length = FALSE,
     allow_na = FALSE,

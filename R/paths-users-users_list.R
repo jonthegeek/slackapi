@@ -13,14 +13,14 @@
 #' @export
 users_list <- function(include_locale = FALSE,
                        team_id = NULL,
-                       per_page = 200L,
+                       per_req = 200L,
                        max_reqs = Inf,
                        max_tries_per_req = 3,
                        token = Sys.getenv("SLACK_API_TOKEN")) {
   req <- req_users_list(
     include_locale = include_locale,
     team_id = team_id,
-    per_page = per_page,
+    per_req = per_req,
     token = token
   )
   resps <- nectar::req_perform_opinionated(
@@ -36,14 +36,14 @@ users_list <- function(include_locale = FALSE,
 #'   users in a Slack team.
 req_users_list <- function(include_locale = FALSE,
                            team_id = NULL,
-                           per_page = 200L,
+                           per_req = 200L,
                            token = Sys.getenv("SLACK_API_TOKEN")) {
   include_locale <- stbl::to_lgl_scalar(
     include_locale,
     allow_null = FALSE
   )
-  per_page <- stbl::stabilize_int_scalar(
-    per_page,
+  per_req <- stbl::stabilize_int_scalar(
+    per_req,
     allow_null = FALSE,
     allow_zero_length = FALSE,
     allow_na = FALSE,
@@ -58,7 +58,7 @@ req_users_list <- function(include_locale = FALSE,
     query = list(
       include_locale = include_locale,
       team_id = team_id,
-      per_page = per_page
+      per_req = per_req
     ),
     pagination = "cursor",
     tidy_fn = tidy_members

@@ -12,7 +12,7 @@
 #'   channel-like conversations.
 #' @export
 conversations_list <- function(exclude_archived = FALSE,
-                               per_page = 200L,
+                               per_req = 200L,
                                team_id = NULL,
                                types = c(
                                  "public_channel",
@@ -25,7 +25,7 @@ conversations_list <- function(exclude_archived = FALSE,
                                token = Sys.getenv("SLACK_API_TOKEN")) {
   req <- req_conversations_list(
     exclude_archived = exclude_archived,
-    per_page = per_page,
+    per_req = per_req,
     team_id = team_id,
     types = types,
     token = token
@@ -42,7 +42,7 @@ conversations_list <- function(exclude_archived = FALSE,
 #' @returns `req_conversations_list()`: A `httr2_request` request object to list
 #'   all channels in a Slack team.
 req_conversations_list <- function(exclude_archived = FALSE,
-                                   per_page = 200L,
+                                   per_req = 200L,
                                    team_id = NULL,
                                    types = c(
                                      "public_channel",
@@ -52,8 +52,8 @@ req_conversations_list <- function(exclude_archived = FALSE,
                                    ),
                                    token = Sys.getenv("SLACK_API_TOKEN")) {
   exclude_archived <- stbl::to_lgl_scalar(exclude_archived, FALSE, FALSE)
-  per_page <- stbl::stabilize_int_scalar(
-    per_page,
+  per_req <- stbl::stabilize_int_scalar(
+    per_req,
     allow_null = FALSE,
     allow_zero_length = FALSE,
     allow_na = FALSE,
@@ -68,7 +68,7 @@ req_conversations_list <- function(exclude_archived = FALSE,
     token = token,
     query = list(
       exclude_archived = exclude_archived,
-      per_page = per_page,
+      per_req = per_req,
       team_id = team_id,
       types = types,
       .multi = "comma"

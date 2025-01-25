@@ -11,7 +11,7 @@ conversations_history(
   oldest = 0,
   inclusive = TRUE,
   include_all_metadata = FALSE,
-  per_page = 200L,
+  per_req = 200L,
   max_reqs = Inf,
   max_tries_per_req = 3,
   token = Sys.getenv("SLACK_API_TOKEN")
@@ -23,7 +23,7 @@ req_conversations_history(
   oldest = 0,
   inclusive = TRUE,
   include_all_metadata = FALSE,
-  per_page = 200L,
+  per_req = 200L,
   token = Sys.getenv("SLACK_API_TOKEN")
 )
 }
@@ -42,7 +42,7 @@ timestamp in results only when either timestamp is specified.}
 \item{include_all_metadata}{(\code{logical}) Return all metadata associated with
 this message.}
 
-\item{per_page}{(\code{integer}) The maximum number of items to return. Fewer than
+\item{per_req}{(\code{integer}) The maximum number of items to return. Fewer than
 the requested number of items may be returned, even if the end of the list
 hasn't been reached. Must be an integer under 1000.}
 
