@@ -14,21 +14,26 @@ coverage](https://codecov.io/gh/jonthegeek/slackapi/graph/badge.svg)](https://ap
 [![R-CMD-check](https://github.com/jonthegeek/slackapi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonthegeek/slackapi/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of slackapi is to…
+A client to interact with the [Slack Web
+API](https://api.slack.com/web). The Slack Web API is an interface for
+querying information **from** and enacting change **in** a Slack
+workspace.
 
 ## Installation
 
-You can install the development version of slackapi from
+You can install the development version of {slackapi} from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("jonthegeek/slackapi")
+# install.packages("pak")
+pak::pak("jonthegeek/slackapi")
 ```
 
-## Usage
+## Made with {beekeeper}
 
-Add usage information and examples here.
+This package is being developed using the
+[{beekeeper}](https://beekeeper.api2r.org/) package. Development is very
+active, and this package will likely change a lot in the coming weeks.
 
 ## Code of Conduct
 

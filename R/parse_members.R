@@ -7,7 +7,7 @@
   )
 }
 
-tspec_slack_members <- function() {
+.slack_response_members_spec <- function() {
   tspec_df(
     user_id = tib_chr("id"),
     tib_chr("team_id", required = FALSE),
