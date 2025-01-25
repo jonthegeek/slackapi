@@ -1,10 +1,12 @@
 Package: slackapi
-Title: What the Package Does
+Title: `Slack Web API` Client
 Version: 0.0.0.9000
 Authors@R: 
     person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4781-4346"))
-Description: The goal of slackapi is to...
+Description: A client to interact with the `Slack Web API`
+    <https://api.slack.com/web>. The `Slack Web API` is an interface for
+    querying information from and enacting change in a `Slack` workspace.
 License: MIT + file LICENSE
 URL: https://github.com/jonthegeek/slackapi,
     https://jonthegeek.github.io/slackapi/

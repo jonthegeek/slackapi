@@ -16,8 +16,7 @@ coverage](https://codecov.io/gh/jonthegeek/slackapi/graph/badge.svg)](https://ap
 
 A client to interact with the [Slack Web
 API](https://api.slack.com/web). The Slack Web API is an interface for
-querying information **from** and enacting change **in** a Slack
-workspace.
+querying information *from* and enacting change *in* a Slack workspace.
 
 ## Installation
 

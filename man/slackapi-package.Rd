@@ -4,9 +4,9 @@
 \name{slackapi-package}
 \alias{slackapi}
 \alias{slackapi-package}
-\title{slackapi: What the Package Does}
+\title{slackapi: `Slack Web API` Client}
 \description{
-The goal of slackapi is to...
+A client to interact with the `Slack Web API` \url{https://api.slack.com/web}. The `Slack Web API` is an interface for querying information from and enacting change in a `Slack` workspace.
 }
 \seealso{
 Useful links:
