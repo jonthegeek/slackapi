@@ -45,7 +45,7 @@
 <span>  oldest <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  inclusive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  include_all_metadata <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  per_page <span class="op">=</span> <span class="fl">200L</span>,</span>
+<span>  per_req <span class="op">=</span> <span class="fl">200L</span>,</span>
 <span>  max_reqs <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  max_tries_per_req <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"SLACK_API_TOKEN"</span><span class="op">)</span></span>
@@ -58,7 +58,7 @@
 <span>  oldest <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  inclusive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  include_all_metadata <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  per_page <span class="op">=</span> <span class="fl">200L</span>,</span>
+<span>  per_req <span class="op">=</span> <span class="fl">200L</span>,</span>
 <span>  token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"SLACK_API_TOKEN"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -99,7 +99,7 @@ timestamp in results only when either timestamp is specified.</p></dd>
 this message.</p></dd>
 
 
-<dt id="arg-per-page">per_page<a class="anchor" aria-label="anchor" href="#arg-per-page"></a></dt>
+<dt id="arg-per-req">per_req<a class="anchor" aria-label="anchor" href="#arg-per-req"></a></dt>
 <dd><p>(<code>integer</code>) The maximum number of items to return. Fewer than
 the requested number of items may be returned, even if the end of the list
 hasn't been reached. Must be an integer under 1000.</p></dd>
