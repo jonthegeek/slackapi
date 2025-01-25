@@ -11,7 +11,7 @@
 #'   pagination; see [Pagination through
 #'   collections](https://api.slack.com/apis/pagination) in the Slack API
 #'   documentation. We do not currently support "Classic pagination".
-#' @param per_page (`integer`) The maximum number of items to return. Fewer than
+#' @param per_req (`integer`) The maximum number of items to return. Fewer than
 #'   the requested number of items may be returned, even if the end of the list
 #'   hasn't been reached. Must be an integer under 1000.
 #' @param req (`httr2_request`) The request object to modify.

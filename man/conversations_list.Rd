@@ -7,7 +7,7 @@
 \usage{
 conversations_list(
   exclude_archived = FALSE,
-  per_page = 200L,
+  per_req = 200L,
   team_id = NULL,
   types = c("public_channel", "private_channel", "mpim", "im"),
   max_reqs = Inf,
@@ -17,7 +17,7 @@ conversations_list(
 
 req_conversations_list(
   exclude_archived = FALSE,
-  per_page = 200L,
+  per_req = 200L,
   team_id = NULL,
   types = c("public_channel", "private_channel", "mpim", "im"),
   token = Sys.getenv("SLACK_API_TOKEN")
@@ -27,7 +27,7 @@ req_conversations_list(
 \item{exclude_archived}{(\code{logical}) Set to \code{TRUE} to exclude archived
 channels from the list.}
 
-\item{per_page}{(\code{integer}) The maximum number of items to return. Fewer than
+\item{per_req}{(\code{integer}) The maximum number of items to return. Fewer than
 the requested number of items may be returned, even if the end of the list
 hasn't been reached. Must be an integer under 1000.}
 

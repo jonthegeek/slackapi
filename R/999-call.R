@@ -81,9 +81,9 @@ slack_call_api <- function(path,
     next_req <- .choose_pagination_fn(pagination, call = call)
     if (!is.null(next_req)) {
       # Use Slack's recommended limit when paginating.
-      per_page <- 200L
-      max_reqs <- min(max_reqs, ceiling(max_results / per_page))
-      req <- httr2::req_url_query(req, limit = per_page)
+      per_req <- 200L
+      max_reqs <- min(max_reqs, ceiling(max_results / per_req))
+      req <- httr2::req_url_query(req, limit = per_req)
     }
   }
 
