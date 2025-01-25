@@ -1,4 +1,8 @@
-#' Basic stop-gap parsing
+#' Basic response parsing
+#'
+#' This function attempts to parse a Slack response into a tidy tibble. It will
+#' gradually be replaced as I implement specific parsers, and eventually will
+#' not be exported.
 #'
 #' @inheritParams httr2::resp_body_json
 #'
@@ -13,13 +17,17 @@ slack_response_parser <- function(resp) {
   results <- httr2::resp_body_json(resp)
   if (length(results)) {
     if ("messages" %in% names(results)) {
-      return(
-        # TODO: If I (even ~naively) specify the spec, I think I can silence the
-        # messages about unspecified.
-        tibblify::tibblify(
-          results[["messages"]], unspecified = "list"
+      if (length(results$messages)) {
+        return(
+          # TODO: If I (even ~naively) specify the spec, I think I can silence
+          # the messages about unspecified.
+          tibblify::tibblify(
+            results$messages, unspecified = "list"
+          )
         )
-      )
+      } else {
+        return(NULL)
+      }
     }
     if ("channels" %in% names(results)) {
       return(.parse_channel(results$channels))

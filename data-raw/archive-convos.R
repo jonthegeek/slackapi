@@ -1,6 +1,6 @@
 pkgload::load_all(".", helpers = FALSE, attach_testthat = FALSE)
 
-channels <- slack_conversations_list(
+channels <- conversations_list(
   types = "public_channel",
   exclude_archived = TRUE
 )
@@ -10,8 +10,11 @@ channels <- slack_conversations_list(
 # changed.
 
 convos_new <- purrr::map(channels$channel_id, \(channel_id) {
-  slack_conversations_history(channel = channel_id) |>
-    dplyr::mutate(channel_id = channel_id, .before = 1)
+  convos <- conversations_history(channel = channel_id)
+  if (NROW(convos)) {
+    convos <- dplyr::mutate(convos, channel_id = channel_id, .before = 1)
+  }
+  convos
 }) |>
   purrr::list_rbind() |>
   dplyr::arrange(.data$channel_id, .data$ts) |>
@@ -120,111 +123,138 @@ if (nrow(convo_changes)) {
       by = c("channel_id", "ts", "reply_count", "latest_reply")
     )
 
-  threads_new <- convos_with_reply_changes |>
-    dplyr::select("channel_id", "ts") |>
-    purrr::pmap(\(channel_id, ts) {
-      slack_conversations_replies(channel = channel_id, ts = ts) |>
-        dplyr::mutate(channel_id = channel_id, .before = 1)
-    }) |>
-    purrr::list_rbind() |>
-    # Remove the parent messages.
-    dplyr::filter(is.na(.data$reply_count)) |>
-    # Get rid of columns that are nonsensical or redundant.
-    dplyr::select(
-      -tidyselect::any_of(
-        c(
-          "type",
-          "subtype",
-          "client_msg_id",
-          "team",
-          "reply_count",
-          "reply_users_count",
-          "latest_reply",
-          "reply_users",
-          "is_locked",
-          "subscribed",
-          "display_as_bot",
-          "last_read",
-          # Old fields.
-          "root",
-          "room",
-          "username",
-          "icons",
-          "bot_id",
-          "hidden",
-          "x_files",
-          "app_id",
-          "bot_profile",
-          "saved",
-          "pinned_to",
-          "pinned_info",
-          "channel",
-          "no_notifications",
-          "permalink"
+  if (nrow(convos_with_reply_changes)) {
+    threads_new <- convos_with_reply_changes |>
+      dplyr::select("channel_id", "ts") |>
+      purrr::pmap(\(channel_id, ts) {
+        conversations_replies(channel = channel_id, ts = ts) |>
+          dplyr::mutate(channel_id = channel_id, .before = 1)
+      }) |>
+      purrr::list_rbind() |>
+      # Remove the parent messages.
+      dplyr::filter(is.na(.data$reply_count)) |>
+      # Get rid of columns that are nonsensical or redundant.
+      dplyr::select(
+        -tidyselect::any_of(
+          c(
+            "type",
+            "subtype",
+            "client_msg_id",
+            "team",
+            "reply_count",
+            "reply_users_count",
+            "latest_reply",
+            "reply_users",
+            "is_locked",
+            "subscribed",
+            "display_as_bot",
+            "last_read",
+            # Old fields.
+            "root",
+            "room",
+            "username",
+            "icons",
+            "bot_id",
+            "hidden",
+            "x_files",
+            "app_id",
+            "bot_profile",
+            "saved",
+            "pinned_to",
+            "pinned_info",
+            "channel",
+            "no_notifications",
+            "permalink"
+          )
         )
       )
-    )
 
-  threads_old <- readRDS("data-raw/convos/threads_all.rds")
+    threads_old <- readRDS("data-raw/convos/threads_all.rds")
 
-  threads_old_compare <- threads_old |>
-    dplyr::select(
-      "channel_id",
-      "ts",
-      "reactions",
-      "edited"
-    )
-
-  common_columns <- intersect(
-    colnames(threads_old_compare),
-    colnames(threads_new)
-  )
-
-  thread_changes <- threads_new |>
-    dplyr::anti_join(threads_old_compare, by = common_columns)
-
-  if (nrow(thread_changes)) {
-    ts_for_threads_filename <- thread_changes |>
-      tidyr::unnest("edited", names_sep = "_") |>
-      dplyr::select("ts", "edited_ts") |>
-      dplyr::summarize(
-        change_ts = max(c(
-          as.double(.data$ts),
-          as.double(.data$edited_ts)
-        ), na.rm = TRUE),
-        .by = "ts"
-      ) |>
-      dplyr::pull(.data$change_ts) |>
-      max(na.rm = TRUE) |>
-      as.POSIXct(
-        origin = "1970-01-01",
-        tz = "UTC"
-      ) |>
-      format(format = "%Y-%m-%d-%H%M%OS0%Z")
-
-    threads_filename <- paste0(
-      "data-raw/convos/threads-",
-      ts_for_threads_filename,
-      ".rds"
-    )
-    saveRDS(thread_changes, threads_filename)
-
-    threads_all <- threads_old |>
-      # Get rid of things that have changed.
-      dplyr::anti_join(
-        threads_new,
-        by = c(
+    threads_old_compare <- threads_old |>
+      dplyr::select(
+        tidyselect::any_of(c(
           "channel_id",
-          "ts"
-        )
-      ) |>
-      dplyr::bind_rows(threads_new) |>
-      dplyr::arrange(.data$channel_id, .data$thread_ts, .data$ts)
-    saveRDS(threads_all, "data-raw/convos/threads_all.rds")
+          "ts",
+          "reactions",
+          "edited"
+        ))
+      )
+
+    common_columns <- intersect(
+      colnames(threads_old_compare),
+      colnames(threads_new)
+    )
+
+    thread_changes <- threads_new |>
+      dplyr::anti_join(threads_old_compare, by = common_columns)
+
+    if (nrow(thread_changes)) {
+      if ("edited" %in% colnames(thread_changes)) {
+        ts_for_threads_filename <- thread_changes |>
+          tidyr::unnest("edited", names_sep = "_") |>
+          dplyr::select("ts", "edited_ts") |>
+          dplyr::summarize(
+            change_ts = max(c(
+              as.double(.data$ts),
+              as.double(.data$edited_ts)
+            ), na.rm = TRUE),
+            .by = "ts"
+          ) |>
+          dplyr::pull(.data$change_ts) |>
+          max(na.rm = TRUE) |>
+          as.POSIXct(
+            origin = "1970-01-01",
+            tz = "UTC"
+          ) |>
+          format(format = "%Y-%m-%d-%H%M%OS0%Z")
+      } else {
+        ts_for_threads_filename <- thread_changes |>
+          dplyr::select("ts") |>
+          dplyr::summarize(
+            change_ts = max(as.double(.data$ts), na.rm = TRUE),
+            .by = "ts"
+          ) |>
+          dplyr::pull(.data$change_ts) |>
+          max(na.rm = TRUE) |>
+          as.POSIXct(
+            origin = "1970-01-01",
+            tz = "UTC"
+          ) |>
+          format(format = "%Y-%m-%d-%H%M%OS0%Z")
+      }
+
+      threads_filename <- paste0(
+        "data-raw/convos/threads-",
+        ts_for_threads_filename,
+        ".rds"
+      )
+      saveRDS(thread_changes, threads_filename)
+
+      threads_all <- threads_old |>
+        # Get rid of things that have changed.
+        dplyr::anti_join(
+          threads_new,
+          by = c(
+            "channel_id",
+            "ts"
+          )
+        ) |>
+        dplyr::bind_rows(threads_new) |>
+        dplyr::arrange(.data$channel_id, .data$thread_ts, .data$ts)
+      saveRDS(threads_all, "data-raw/convos/threads_all.rds")
+      rm(
+        ts_for_threads_filename,
+        threads_filename,
+        threads_all
+      )
+    }
     rm(
-      ts_for_threads_filename,
-      threads_filename,
-      threads_all
+      threads_new,
+      threads_old,
+      threads_old_compare,
+      common_columns,
+      thread_changes
     )
   }
 
@@ -233,12 +263,7 @@ if (nrow(convo_changes)) {
     ts_for_filename,
     convos_filename,
     convos_old_thread_info,
-    convos_with_reply_changes,
-    threads_new,
-    threads_old,
-    threads_old_compare,
-    common_columns,
-    thread_changes
+    convos_with_reply_changes
   )
 }
 

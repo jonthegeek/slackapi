@@ -8,12 +8,12 @@
 #'   for users. Defaults to `FALSE`.
 #'
 #' @return This method returns information about a member of a workspace.
-#' @export
-slack_users_info <- function(user,
-                             include_locale = FALSE,
-                             max_results = Inf,
-                             max_reqs = Inf,
-                             token = Sys.getenv("SLACK_API_TOKEN")) {
+#' @keywords internal
+users_info <- function(user,
+                       include_locale = FALSE,
+                       max_results = Inf,
+                       max_reqs = Inf,
+                       token = Sys.getenv("SLACK_API_TOKEN")) {
   slack_call_api(
     path = "/users.info",
     method = "get",
