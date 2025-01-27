@@ -4,8 +4,6 @@
 #' in [nectar::req_init()], [nectar::req_modify()], [nectar::req_tidy_policy()],
 #' and [nectar::req_pagination_policy()].
 #'
-#' I may export this eventually, but hopefully I won't have to.
-#'
 #' @inheritParams .shared-params
 #' @inheritParams nectar::req_prepare
 #' @inherit nectar::req_prepare return
@@ -15,7 +13,7 @@ slack_req_prepare <- function(path,
                               body = NULL,
                               method = NULL,
                               pagination = c("none", "cursor"),
-                              tidy_fn = tidy_slack,
+                              tidy_fn = nectar::resp_tidy_unknown,
                               token = Sys.getenv("SLACK_API_TOKEN"),
                               call = rlang::caller_env()) {
   token <- .find_token(token, body, query)
@@ -30,7 +28,8 @@ slack_req_prepare <- function(path,
     auth_fn = .req_auth,
     auth_args = list(token = token),
     tidy_fn = tidy_fn,
-    pagination_fn = .choose_pagination_fn(pagination, call = call)
+    pagination_fn = .choose_pagination_fn(pagination, call = call),
+    call = call
   )
   return(req)
 }
