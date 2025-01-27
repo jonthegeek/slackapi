@@ -12,7 +12,7 @@ slack_req_prepare <- function(path,
                               query = list(),
                               body = NULL,
                               method = NULL,
-                              pagination = c("none", "cursor"),
+                              pagination_fn = NULL,
                               tidy_fn = nectar::resp_tidy_unknown,
                               token = Sys.getenv("SLACK_API_TOKEN"),
                               call = rlang::caller_env()) {
@@ -28,7 +28,7 @@ slack_req_prepare <- function(path,
     auth_fn = .req_auth,
     auth_args = list(token = token),
     tidy_fn = tidy_fn,
-    pagination_fn = .choose_pagination_fn(pagination, call = call),
+    pagination_fn = pagination_fn,
     call = call
   )
   return(req)

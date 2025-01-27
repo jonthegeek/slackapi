@@ -9,7 +9,7 @@ slack_req_prepare(
   query = list(),
   body = NULL,
   method = NULL,
-  pagination = c("none", "cursor"),
+  pagination_fn = NULL,
   tidy_fn = nectar::resp_tidy_unknown,
   token = Sys.getenv("SLACK_API_TOKEN"),
   call = rlang::caller_env()
@@ -33,10 +33,12 @@ otherwise give it the class "fs_path" to indicate that it is a path.}
 \item{method}{(\verb{length-1 character}, optional) If the method is something
 other than \code{GET} or \code{POST}, supply it. Case is ignored.}
 
-\item{pagination}{(\code{character}) The pagination scheme to use. Currently
-either "none" (the default) or "cursor" (a scheme that uses \code{cursor}-based
-pagination; see \href{https://api.slack.com/apis/pagination}{Pagination through collections} in the Slack API
-documentation. We do not currently support "Classic pagination".}
+\item{pagination_fn}{(\code{function}) The pagination scheme to use. Currently
+either \code{NULL} (no pagination, the default) or \code{slack_pagination_cursor} to
+use \code{\link[=slack_pagination_cursor]{slack_pagination_cursor()}} for \code{cursor}-based pagination. See
+\href{https://api.slack.com/apis/pagination}{Pagination through collections} in
+the Slack API documentation. We do not currently support "Classic
+pagination".}
 
 \item{tidy_fn}{(\code{function}) A function that will be invoked by \code{\link[nectar:resp_tidy]{resp_tidy()}}
 to tidy the response.}

@@ -9,7 +9,7 @@ slack_call_api(
   query = list(),
   body = NULL,
   method = NULL,
-  pagination = c("none", "cursor"),
+  pagination_fn = NULL,
   max_results = Inf,
   max_reqs = Inf,
   response_parser = slack_response_parser,
@@ -35,10 +35,12 @@ otherwise give it the class "fs_path" to indicate that it is a path.}
 \item{method}{(\verb{length-1 character}, optional) If the method is something
 other than \code{GET} or \code{POST}, supply it. Case is ignored.}
 
-\item{pagination}{(\code{character}) The pagination scheme to use. Currently either
-"none" (the default) or "cursor" (a scheme that uses \code{cursor}-based
-pagination; see \href{https://api.slack.com/apis/pagination}{Pagination through collections} in the Slack API
-documentation. We do not currently support "Classic pagination".}
+\item{pagination_fn}{(\code{function}) The pagination scheme to use. Currently
+either \code{NULL} (no pagination, the default) or \code{slack_pagination_cursor} to
+use \code{\link[=slack_pagination_cursor]{slack_pagination_cursor()}} for \code{cursor}-based pagination. See
+\href{https://api.slack.com/apis/pagination}{Pagination through collections} in
+the Slack API documentation. We do not currently support "Classic
+pagination".}
 
 \item{max_results}{(\code{integer} or \code{Inf}) The maximum number of results to
 return. Note that slightly more results may be returned if \code{max_results} is

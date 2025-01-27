@@ -10,16 +10,21 @@ perform. Passed on to \code{\link[nectar:req_perform_opinionated]{nectar::req_pe
 \item{max_tries_per_req}{(\code{integer}) The maximum number of times to attempt
 each individual request. Passed on to \code{\link[nectar:req_perform_opinionated]{nectar::req_perform_opinionated()}}.}
 
-\item{pagination}{(\code{character}) The pagination scheme to use. Currently
-either "none" (the default) or "cursor" (a scheme that uses \code{cursor}-based
-pagination; see \href{https://api.slack.com/apis/pagination}{Pagination through collections} in the Slack API
-documentation. We do not currently support "Classic pagination".}
+\item{pagination_fn}{(\code{function}) The pagination scheme to use. Currently
+either \code{NULL} (no pagination, the default) or \code{slack_pagination_cursor} to
+use \code{\link[=slack_pagination_cursor]{slack_pagination_cursor()}} for \code{cursor}-based pagination. See
+\href{https://api.slack.com/apis/pagination}{Pagination through collections} in
+the Slack API documentation. We do not currently support "Classic
+pagination".}
 
 \item{per_req}{(\code{integer}) The maximum number of items to return. Fewer than
 the requested number of items may be returned, even if the end of the list
 hasn't been reached. Must be an integer under 1000.}
 
 \item{req}{(\code{httr2_request}) The request object to modify.}
+
+\item{resp}{(\code{httr2_response}) A \code{\link[httr2:response]{httr2::response()}} object (as returned by
+\code{\link[httr2:req_perform]{httr2::req_perform()}}).}
 
 \item{team_id}{(\code{character}) Encoded team id to list channels in, required if
 token belongs to org-wide app.}

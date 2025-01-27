@@ -60,7 +60,7 @@ req_users_list <- function(include_locale = FALSE,
       team_id = team_id,
       per_req = per_req
     ),
-    pagination = "cursor",
+    pagination_fn = slack_pagination_cursor,
     tidy_fn = tidy_members
   )
 }
