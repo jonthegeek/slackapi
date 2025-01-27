@@ -71,24 +71,6 @@ users_identity <- function(token = Sys.getenv("SLACK_TOKEN")) {
   )
 }
 
-#' Get users info
-#'
-#' Gets information about a user.
-#'
-#' @inheritParams slack_call_api
-#' @param include_locale Set this to `true` to receive the locale for this user. Defaults to `false`
-#' @param user User to get info on
-#' @return BKTODO: Return descriptions are not yet implemented in beekeeper
-#' @export
-users_info <- function(include_locale, user, token = Sys.getenv("SLACK_TOKEN")) {
-  slack_call_api(
-    path = "/users.info",
-    method = "get",
-    token = token,
-    query = list(include_locale = include_locale, user = user)
-  )
-}
-
 #' Get users lookup by email
 #'
 #' Find a user with an email address.

@@ -1,4 +1,4 @@
-convos <- slack_conversations_history("C06DGLX8U4V") |>
+convos <- conversations_history("C06DGLX8U4V") |>
   dplyr::arrange(ts) |>
   tidyr::unnest(pinned_info) |>
   dplyr::select(
@@ -19,7 +19,7 @@ convos <- slack_conversations_history("C06DGLX8U4V") |>
 user_info <- convos |>
   dplyr::distinct(.data$user) |>
   dplyr::mutate(
-    user_info = purrr::map(.data$user, slack_users_info)
+    user_info = purrr::map(.data$user, users_info)
   ) |>
   tidyr::unnest_wider("user_info") |>
   dplyr::select("user", "real_name_normalized", "display_name_normalized") |>
@@ -46,7 +46,7 @@ threads <- convos |>
   dplyr::pull(ts) |>
   purrr::map(
     \(ts) {
-      slack_conversations_replies(channel = "C06DGLX8U4V", ts = ts)
+      conversations_replies(channel = "C06DGLX8U4V", ts = ts)
     },
     .progress = TRUE
   ) |>
