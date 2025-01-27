@@ -38,7 +38,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.slack_req_perform</span><span class="op">(</span><span class="va">req</span>, <span class="va">pagination</span>, <span class="va">max_results</span>, <span class="va">max_reqs</span>, <span class="va">call</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.slack_req_perform</span><span class="op">(</span><span class="va">req</span>, pagination_fn <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">max_results</span>, <span class="va">max_reqs</span>, <span class="va">call</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -49,11 +49,13 @@
 <dd><p>(<code>httr2_request</code>) The request object to modify.</p></dd>
 
 
-<dt id="arg-pagination">pagination<a class="anchor" aria-label="anchor" href="#arg-pagination"></a></dt>
-<dd><p>(<code>character</code>) The pagination scheme to use. Currently either
-"none" (the default) or "cursor" (a scheme that uses <code>cursor</code>-based
-pagination; see <a href="https://api.slack.com/apis/pagination" class="external-link">Pagination through collections</a> in the Slack API
-documentation. We do not currently support "Classic pagination".</p></dd>
+<dt id="arg-pagination-fn">pagination_fn<a class="anchor" aria-label="anchor" href="#arg-pagination-fn"></a></dt>
+<dd><p>(<code>function</code>) The pagination scheme to use. Currently
+either <code>NULL</code> (no pagination, the default) or <code>slack_pagination_cursor</code> to
+use <code><a href="slack_pagination_cursor.html">slack_pagination_cursor()</a></code> for <code>cursor</code>-based pagination. See
+<a href="https://api.slack.com/apis/pagination" class="external-link">Pagination through collections</a> in
+the Slack API documentation. We do not currently support "Classic
+pagination".</p></dd>
 
 
 <dt id="arg-max-results">max_results<a class="anchor" aria-label="anchor" href="#arg-max-results"></a></dt>

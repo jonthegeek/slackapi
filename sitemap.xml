@@ -34,6 +34,7 @@
 <url><loc>https://jonthegeek.github.io/slackapi/reference/slack_auth_test.html</loc></url>
 <url><loc>https://jonthegeek.github.io/slackapi/reference/slack_call_api.html</loc></url>
 <url><loc>https://jonthegeek.github.io/slackapi/reference/slack_conversations_members.html</loc></url>
+<url><loc>https://jonthegeek.github.io/slackapi/reference/slack_pagination_cursor.html</loc></url>
 <url><loc>https://jonthegeek.github.io/slackapi/reference/slack_req_prepare.html</loc></url>
 <url><loc>https://jonthegeek.github.io/slackapi/reference/slack_response_parser.html</loc></url>
 <url><loc>https://jonthegeek.github.io/slackapi/reference/slackapi-package.html</loc></url>

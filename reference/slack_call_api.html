@@ -43,7 +43,7 @@
 <span>  query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  body <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  pagination <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"cursor"</span><span class="op">)</span>,</span>
+<span>  pagination_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_results <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  max_reqs <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  response_parser <span class="op">=</span> <span class="va">slack_response_parser</span>,</span>
@@ -81,11 +81,13 @@ otherwise give it the class "fs_path" to indicate that it is a path.</p></dd>
 other than <code>GET</code> or <code>POST</code>, supply it. Case is ignored.</p></dd>
 
 
-<dt id="arg-pagination">pagination<a class="anchor" aria-label="anchor" href="#arg-pagination"></a></dt>
-<dd><p>(<code>character</code>) The pagination scheme to use. Currently either
-"none" (the default) or "cursor" (a scheme that uses <code>cursor</code>-based
-pagination; see <a href="https://api.slack.com/apis/pagination" class="external-link">Pagination through collections</a> in the Slack API
-documentation. We do not currently support "Classic pagination".</p></dd>
+<dt id="arg-pagination-fn">pagination_fn<a class="anchor" aria-label="anchor" href="#arg-pagination-fn"></a></dt>
+<dd><p>(<code>function</code>) The pagination scheme to use. Currently
+either <code>NULL</code> (no pagination, the default) or <code>slack_pagination_cursor</code> to
+use <code><a href="slack_pagination_cursor.html">slack_pagination_cursor()</a></code> for <code>cursor</code>-based pagination. See
+<a href="https://api.slack.com/apis/pagination" class="external-link">Pagination through collections</a> in
+the Slack API documentation. We do not currently support "Classic
+pagination".</p></dd>
 
 
 <dt id="arg-max-results">max_results<a class="anchor" aria-label="anchor" href="#arg-max-results"></a></dt>

@@ -51,11 +51,13 @@ perform. Passed on to <code><a href="https://nectar.api2r.org/reference/req_perf
 each individual request. Passed on to <code><a href="https://nectar.api2r.org/reference/req_perform_opinionated.html" class="external-link">nectar::req_perform_opinionated()</a></code>.</p></dd>
 
 
-<dt id="arg-pagination">pagination<a class="anchor" aria-label="anchor" href="#arg-pagination"></a></dt>
-<dd><p>(<code>character</code>) The pagination scheme to use. Currently
-either "none" (the default) or "cursor" (a scheme that uses <code>cursor</code>-based
-pagination; see <a href="https://api.slack.com/apis/pagination" class="external-link">Pagination through collections</a> in the Slack API
-documentation. We do not currently support "Classic pagination".</p></dd>
+<dt id="arg-pagination-fn">pagination_fn<a class="anchor" aria-label="anchor" href="#arg-pagination-fn"></a></dt>
+<dd><p>(<code>function</code>) The pagination scheme to use. Currently
+either <code>NULL</code> (no pagination, the default) or <code>slack_pagination_cursor</code> to
+use <code><a href="slack_pagination_cursor.html">slack_pagination_cursor()</a></code> for <code>cursor</code>-based pagination. See
+<a href="https://api.slack.com/apis/pagination" class="external-link">Pagination through collections</a> in
+the Slack API documentation. We do not currently support "Classic
+pagination".</p></dd>
 
 
 <dt id="arg-per-req">per_req<a class="anchor" aria-label="anchor" href="#arg-per-req"></a></dt>
@@ -66,6 +68,11 @@ hasn't been reached. Must be an integer under 1000.</p></dd>
 
 <dt id="arg-req">req<a class="anchor" aria-label="anchor" href="#arg-req"></a></dt>
 <dd><p>(<code>httr2_request</code>) The request object to modify.</p></dd>
+
+
+<dt id="arg-resp">resp<a class="anchor" aria-label="anchor" href="#arg-resp"></a></dt>
+<dd><p>(<code>httr2_response</code>) A <code><a href="https://httr2.r-lib.org/reference/response.html" class="external-link">httr2::response()</a></code> object (as returned by
+<code><a href="https://httr2.r-lib.org/reference/req_perform.html" class="external-link">httr2::req_perform()</a></code>).</p></dd>
 
 
 <dt id="arg-team-id">team_id<a class="anchor" aria-label="anchor" href="#arg-team-id"></a></dt>
