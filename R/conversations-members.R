@@ -16,7 +16,7 @@ slack_conversations_members <- function(channel,
     method = "get",
     token = token,
     query = list(channel = channel),
-    pagination = "cursor",
+    pagination_fn = slack_pagination_cursor,
     max_results = max_results,
     max_reqs = max_reqs
   )

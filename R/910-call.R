@@ -18,7 +18,7 @@ slack_call_api <- function(path,
                            query = list(),
                            body = NULL,
                            method = NULL,
-                           pagination = c("none", "cursor"),
+                           pagination_fn = NULL,
                            max_results = Inf,
                            max_reqs = Inf,
                            response_parser = slack_response_parser,
@@ -46,7 +46,7 @@ slack_call_api <- function(path,
 
   resps <- .slack_req_perform(
     req,
-    pagination = pagination,
+    pagination_fn = pagination_fn,
     max_results = max_results,
     max_reqs = max_reqs,
     call = call
@@ -59,12 +59,8 @@ slack_call_api <- function(path,
 #'
 #' @inheritParams rlang::args_error_context
 #' @inheritParams nectar::req_perform_opinionated
+#' @inheritParams .shared-params
 #' @param req (`httr2_request`) The request object to modify.
-#' @param pagination (`character`) The pagination scheme to use. Currently either
-#'   "none" (the default) or "cursor" (a scheme that uses `cursor`-based
-#'   pagination; see [Pagination through
-#'   collections](https://api.slack.com/apis/pagination) in the Slack API
-#'   documentation. We do not currently support "Classic pagination".
 #' @param max_results (`integer` or `Inf`) The maximum number of results to
 #'   return. Note that slightly more results may be returned if `max_results` is
 #'   not evenly divisible by 100.
@@ -72,19 +68,15 @@ slack_call_api <- function(path,
 #' @inherit nectar::req_perform_opinionated return
 #' @keywords internal
 .slack_req_perform <- function(req,
-                               pagination,
+                               pagination_fn = NULL,
                                max_results,
                                max_reqs,
                                call) {
-  next_req <- NULL
-  if (max_reqs > 1) {
-    next_req <- .choose_pagination_fn(pagination, call = call)
-    if (!is.null(next_req)) {
-      # Use Slack's recommended limit when paginating.
-      per_req <- 200L
-      max_reqs <- min(max_reqs, ceiling(max_results / per_req))
-      req <- httr2::req_url_query(req, limit = per_req)
-    }
+  if (max_reqs > 1 && !is.null(pagination_fn)) {
+    # Use Slack's recommended limit when paginating.
+    per_req <- 200L
+    max_reqs <- min(max_reqs, ceiling(max_results / per_req))
+    req <- httr2::req_url_query(req, limit = per_req)
   }
 
   # nectar respects it if we put our own retry mechanism on. Slack has retry
@@ -94,7 +86,7 @@ slack_call_api <- function(path,
 
   nectar::req_perform_opinionated(
     req,
-    next_req_fn = next_req,
+    next_req_fn = pagination_fn,
     max_reqs = max_reqs
   )
 }

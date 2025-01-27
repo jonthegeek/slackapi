@@ -73,7 +73,7 @@ req_conversations_list <- function(exclude_archived = FALSE,
       types = types,
       .multi = "comma"
     ),
-    pagination = "cursor",
+    pagination_fn = slack_pagination_cursor,
     tidy_fn = tidy_channels
   )
 }

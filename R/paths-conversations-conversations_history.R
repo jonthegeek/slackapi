@@ -85,7 +85,7 @@ req_conversations_history <- function(channel,
       inclusive = inclusive,
       include_all_metadata = include_all_metadata
     ),
-    pagination = "cursor",
+    pagination_fn = slack_pagination_cursor,
     tidy_fn = tidy_messages
   )
 }
