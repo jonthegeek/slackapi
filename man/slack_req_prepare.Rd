@@ -10,7 +10,7 @@ slack_req_prepare(
   body = NULL,
   method = NULL,
   pagination = c("none", "cursor"),
-  tidy_fn = tidy_slack,
+  tidy_fn = nectar::resp_tidy_unknown,
   token = Sys.getenv("SLACK_API_TOKEN"),
   call = rlang::caller_env()
 )
@@ -58,8 +58,5 @@ A \code{\link[httr2:request]{httr2::request()}} object with additional class \co
 Prepare a request for the Slack API, using the opinionated framework defined
 in \code{\link[nectar:req_init]{nectar::req_init()}}, \code{\link[nectar:req_modify]{nectar::req_modify()}}, \code{\link[nectar:req_tidy_policy]{nectar::req_tidy_policy()}},
 and \code{\link[nectar:req_pagination_policy]{nectar::req_pagination_policy()}}.
-}
-\details{
-I may export this eventually, but hopefully I won't have to.
 }
 \keyword{internal}
