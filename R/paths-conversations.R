@@ -181,26 +181,6 @@ conversations_mark <- function(token = Sys.getenv("SLACK_API_TOKEN")) {
   )
 }
 
-#' Get conversations members
-#'
-#' Retrieve members of a conversation.
-#'
-#' @param token (`character`) A bearer token provided by Slack. A later
-#'   enhancement will add the ability to generate this token. Slack token are
-#'   long-lasting, and should be carefully guarded. Requires scope:
-#'   `conversations:read`
-#' @param channel ID of the conversation to retrieve members for
-#' @return BKTODO: Return descriptions are not yet implemented in beekeeper
-#' @keywords internal
-conversations_members <- function(channel, max_results = Inf, max_reqs = Inf, cursor, token = Sys.getenv("SLACK_API_TOKEN")) {
-  slack_call_api(
-    path = "/conversations.members",
-    method = "get",
-    token = token,
-    query = list(channel = channel)
-  )
-}
-
 #' Post conversations open
 #'
 #' Opens or resumes a direct message or multi-person direct message.
