@@ -79,6 +79,6 @@ tspec_slack_members <- function() {
 
 tidy_members_ids <- function(resp) {
   results <- httr2::resp_body_json(resp)
-  results <- purrr::pluck(results, "members")
+  results <- results$members
   results <- unlist(results)
 }

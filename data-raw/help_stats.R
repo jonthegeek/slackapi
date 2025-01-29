@@ -57,7 +57,7 @@ help_convos <- convos_all |>
   )
 
 year_counts <- help_convos |>
-  dplyr::count(message_year)
+  dplyr::count(.data$message_year)
 year_counts
 # tibble::tibble(
 #   message_year = c(2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024),
