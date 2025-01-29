@@ -76,3 +76,9 @@ tspec_slack_members <- function() {
     tib_lgl("is_forgotten", required = FALSE)
   )
 }
+
+tidy_members_ids <- function(resp) {
+  results <- httr2::resp_body_json(resp)
+  results <- results$members
+  results <- unlist(results)
+}

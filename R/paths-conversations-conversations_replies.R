@@ -96,7 +96,8 @@ req_conversations_replies <- function(channel,
       latest = latest,
       oldest = oldest,
       inclusive = inclusive,
-      include_all_metadata = include_all_metadata
+      include_all_metadata = include_all_metadata,
+      per_req = per_req
     ),
     pagination_fn = slack_pagination_cursor,
     tidy_fn = tidy_messages
